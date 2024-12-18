@@ -1,4 +1,6 @@
 class Auth::AuthenticationController < ApplicationController
+  skip_before_action :authenticate_request, only: [ :register, :login ]
+
   # POST "/register"
   def register
     user = User.new(user_params)
@@ -18,6 +20,18 @@ class Auth::AuthenticationController < ApplicationController
       render json: { token: token }, status: :ok
     else
       render json: { message: "Invalid credentials" }, status: :unauthorized
+    end
+  end
+
+  # POST "/logout"
+  def logout
+    token = request_token
+
+    if token
+      BlacklistToken.create!(token: token)
+      render json: { message: "Logged out successfully" }, status: :ok
+    else
+      render json: { message: "Token not provided" }, status: :bad_request
     end
   end
 

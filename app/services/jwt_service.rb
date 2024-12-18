@@ -1,3 +1,4 @@
+
 class JwtService
   require "jwt"
 
