@@ -14,7 +14,7 @@ class Auth::AuthenticationController < ApplicationController
     user = User.find_by(email: params[:email])
 
     if user&.valid_password?(params[:password])
-      token = encode_token(user.id)
+      token = JwtService.encode(user_id: user.id)
       render json: { token: token }, status: :ok
     else
       render json: { message: "Invalid credentials" }, status: :unauthorized
@@ -23,14 +23,8 @@ class Auth::AuthenticationController < ApplicationController
 
   private
 
-  # request parameters
+  # Strong parameters
   def user_params
     params.permit(:username, :email, :password, :password_confirmation)
-  end
-
-  # Helper method to encode JWT token
-  def encode_token(user_id)
-    payload = { user_id: user_id, exp: 24.hours.from_now.to_i }
-    JWT.encode(payload, Rails.application.credentials.secret_key_base)
   end
 end
