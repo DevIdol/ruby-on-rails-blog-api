@@ -12,9 +12,10 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 
-## Add your own gems:
+## Add needed gems:
 gem "slim-rails"
 gem "devise"
+gem "jwt"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
