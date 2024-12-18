@@ -22,4 +22,10 @@ module Authenticable
     header = request.headers["Authorization"]
     header&.split(" ")&.last
   end
+
+  def authorize_user
+    if @current_user.nil? || @current_user.id != params[:id].to_i
+      render json: { message: "Unauthorized" }, status: :unauthorized
+    end
+  end
 end
