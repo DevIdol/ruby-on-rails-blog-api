@@ -1,0 +1,12 @@
+h1 Blogs
+
+- if @blogs.present?
+  ul
+    - @blogs.each do |blog|
+      li
+        = link_to blog.title, blog_path(blog)
+        p
+         strong Author:
+         = blog.user.username
+- else
+  p No blogs available.

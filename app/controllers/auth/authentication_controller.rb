@@ -1,5 +1,9 @@
 class Auth::AuthenticationController < ApplicationController
-  skip_before_action :authenticate_request, only: [ :register, :login ]
+  skip_before_action :authenticate_request, only: [ :user_register, :register, :login ]
+
+  def user_register
+    render "auth/authentication/user_register"
+  end
 
   # POST "/register"
   def register

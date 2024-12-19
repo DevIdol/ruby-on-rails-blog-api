@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_che
+  root to: "home#index"
 
   # Auth routes
-  post "register", to: "auth/authentication#register"
-  post "login", to: "auth/authentication#login"
-  post "logout", to: "auth/authentication#logout"
+  get "register", to: "auth/authentication#user_register", as: :register_form
+  post "register", to: "auth/authentication#register", as: :register
+  post "login", to: "auth/authentication#login", as: :login
+  post "logout", to: "auth/authentication#logout", as: :logout
 
   # User routes
   get "users/:id", to: "user/user#show", as: :user_profile
@@ -19,5 +21,5 @@ Rails.application.routes.draw do
   patch "blogs/:id", to: "blog/blog#update"
   put "blogs/:id", to: "blog/blog#update"
   delete "blogs/:id", to: "blog/blog#destroy", as: :destroy_blog
-  # resources :blogs, only: [ :index, :show, :create, :update, :destroy ]
+  resources :blogs, only: [ :index, :show ] # Web Render
 end

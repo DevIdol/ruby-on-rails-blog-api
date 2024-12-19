@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    title Login
+  body
+    / Include the header partial here
+    = render 'shared/header'
+
+    h1 Login
+
+    = form_with(url: login_path, method: :post) do |form|
+      - if flash[:error]
+        p= flash[:error]
+
+      .form-group
+        = form.label :email
+        = form.email_field :email, class: 'form-control', required: true
+
+      .form-group
+        = form.label :password
+        = form.password_field :password, class: 'form-control', required: true
+
+      .form-group
+        = form.submit "Login", class: 'btn btn-primary'
+    
+    p
+      Don't have an account? 
+      = link_to 'Register', register_path

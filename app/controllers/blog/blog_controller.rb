@@ -1,11 +1,15 @@
 class Blog::BlogController < ApplicationController
   include Authenticable
+  before_action :authenticate_request, except: [ :index, :show ]
   before_action :set_blog, only: [ :show, :update, :destroy, :toggle_publish ]
 
   # GET /blogs
   def index
-    blogs = Blog.includes(:user).all
-    render json: blogs_with_user(blogs), status: :ok
+    @blogs = Blog.includes(:user).all  # Ensure @blogs is used here
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: blogs_with_user(@blogs), status: :ok }
+    end
   end
 
   # GET /blogs/user/:user_id
@@ -17,7 +21,10 @@ class Blog::BlogController < ApplicationController
 
   # GET /blogs/:id
   def show
-    render json: blog_with_user(@blog), status: :ok
+    respond_to do |format|
+      format.html { render :show }  # Renders the app/views/blog/blogs/show.html.slim
+      format.json { render json: blog_with_user(@blog), status: :ok }
+    end
   end
 
   # POST /blogs

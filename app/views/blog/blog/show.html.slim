@@ -1,0 +1,14 @@
+h1 = @blog.title
+
+p
+  strong Author:
+  = @blog.user.username
+
+p
+  = @blog.description
+
+p
+  strong Published:
+  = @blog.is_publish ? "Yes" : "No"
+
+= link_to 'Back to Blogs', blogs_path
