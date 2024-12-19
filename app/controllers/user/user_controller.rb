@@ -1,7 +1,7 @@
 class User::UserController < ApplicationController
   before_action :authenticate_request
   before_action :set_user, only: [ :show, :destroy, :update ]
-  before_action :authorize_user, only: [ :show, :destroy, :update ]
+  before_action :authorize_user_by_params_id, only: [ :show, :destroy, :update ]
 
   # GET /users/:id
   def show
@@ -25,11 +25,5 @@ class User::UserController < ApplicationController
   def set_user
     @user = User.find_by(id: params[:id])
     render json: { message: "User not found" }, status: :not_found unless @user
-  end
-
-  def authorize_user
-    if @current_user.id != params[:id].to_i
-      render json: { message: "Unauthorized" }, status: :unauthorized
-    end
   end
 end

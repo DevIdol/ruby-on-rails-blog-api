@@ -15,10 +15,16 @@ RUN apt-get update -qq && apt-get install -y \
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock ./
+
 RUN bundle install
 
 COPY . .
 
+COPY devops/entrypoint.sh /usr/bin/entrypoint.sh
+RUN chmod +x /usr/bin/entrypoint.sh
+
 EXPOSE 3000
+
+ENTRYPOINT ["entrypoint.sh"]
 
 CMD ["rails", "server", "-b", "0.0.0.0"]
